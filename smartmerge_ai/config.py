@@ -1,0 +1,1 @@
+  # ⚙️ Configuration settings (GitHub API keys, repo details)

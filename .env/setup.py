@@ -1,0 +1,1 @@
+ # 📦 CLI setup script
