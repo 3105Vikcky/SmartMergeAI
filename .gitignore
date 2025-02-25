@@ -9,4 +9,4 @@ __pycache__/
 
 # Ignore virtual environments
 VIR_ENV/
-.env/
+.env
