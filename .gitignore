@@ -10,3 +10,7 @@ __pycache__/
 # Ignore virtual environments
 VIR_ENV/
 .env
+
+
+#Ignore Raw Data
+/data/raw
