@@ -1,0 +1,6 @@
+openai
+requests
+faiss-cpu
+python-dotenv
+mlflow
+pytest
