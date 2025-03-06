@@ -1,0 +1,1 @@
+# Handles vector storage and retrieval (using FAISS, ChromaDB, etc.)

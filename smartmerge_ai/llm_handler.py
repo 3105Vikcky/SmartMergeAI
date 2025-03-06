@@ -1,0 +1,1 @@
+ # Handles LLM interactions for generating merge conflict resolutions (RAG)
