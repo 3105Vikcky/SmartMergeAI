@@ -1,1 +1,0 @@
-# Extracts key features from PRs (title, diff, comments, etc.) and generates embeddings

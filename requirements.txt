@@ -4,3 +4,5 @@ faiss-cpu
 python-dotenv
 mlflow
 pytest
+dotenv
+langchain_openai;
