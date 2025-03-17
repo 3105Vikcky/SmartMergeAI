@@ -1,6 +1,6 @@
  # Retrieves similar past conflicts from the vector database based on embeddings
 from langchain_community.vectorstores import FAISS
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.chains import RetrievalQA
 from dotenv import load_dotenv
 import os
