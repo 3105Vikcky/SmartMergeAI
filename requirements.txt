@@ -6,3 +6,4 @@ mlflow
 pytest
 dotenv
 langchain_openai;
+rich
