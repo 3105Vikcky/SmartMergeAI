@@ -4,6 +4,10 @@
 # create a file for local database connection in smartmerge_ai folder name (optional)
 # for input file you will See in data/raw/closed_pr or data/raw/open_pr after running main.py
 # Load environment variables
+
+# below are just Example for project run purpose you need to modify this accordingly
+
+
 import os
 import json
 from dotenv import load_dotenv
