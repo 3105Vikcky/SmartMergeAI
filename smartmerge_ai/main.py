@@ -35,8 +35,8 @@ def run_cli():
     console.print("\n[cyan]📊 Loading PR Data...[/cyan]\n")
 
     closed_prs = load_pr_data(
-        rf"data/raw/closed_pr/{repo_name}_all_closed_prs.json")
-    open_prs = load_pr_data(rf"data/raw/open_pr/{repo_name}_all_open_prs.json")
+        rf"SmartMergeAI/data/raw/closed_pr/{repo_name}_all_closed_prs.json")
+    open_prs = load_pr_data(rf"SmartMergeAI/data/raw/open_pr/{repo_name}_all_open_prs.json")
 
     console.print(
         "\n[bold green]🤖 Evaluating PRs using RAG-based AI...[/bold green]\n")
