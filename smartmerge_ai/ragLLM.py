@@ -36,6 +36,7 @@ def extract_merge_percentage(response_text):
     # Define confidence scores based on keywords
     scores = {
         "ready to merge": 90,
+        "there are no merge conflicts":90,
         "safe to merge": 85,
         "minor issues": 75,
         "requires small changes": 70,
@@ -58,7 +59,7 @@ def extract_merge_percentage(response_text):
 def evaluate_open_pr(closed_prs, open_prs):
     closed_pr_texts = format_closed_prs(closed_prs)
     retriever = initialize_retriever(closed_pr_texts)
-    llm = ChatOpenAI(model_name="gpt-4o", openai_api_key=OPENAI_API_KEY)
+    llm = ChatOpenAI(model_name="gpt-4o", openai_api_key=OPENAI_API_KEY, temperature=0)
     rag_chain = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)
 
     results = {}
