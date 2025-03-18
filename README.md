@@ -4,6 +4,7 @@
 SmartMergeAI is an AI-powered automation tool designed to analyze and manage GitHub Pull Requests (PRs) efficiently. It leverages machine learning to predict PR merge success, ensuring smoother CI/CD workflows and reducing manual review effort.
 
 ## 🔥 Features
+<br>
 - **PR Analysis using AI**: Evaluates PRs based on past data and coding patterns.
 - **Predictive Model**: Uses RAG  to predict PR merge success.
 - **Auto-Merge Logic**: Defines conditions for automated merging based on model predictions.
