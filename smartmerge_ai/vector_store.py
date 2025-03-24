@@ -10,9 +10,10 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-# Paths for ChromaDB storage
-CLOSED_PR_DB_PATH = r"C:\Users\Admin\Desktop\SMARTAI\SmartMergeAI\data\Embeddings\closed_pr"
-OPEN_PR_DB_PATH = r"C:\Users\Admin\Desktop\SMARTAI\SmartMergeAI\data\Embeddings\open_pr"
+# Correct paths for ChromaDB storage
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))   # Get current working directory
+CLOSED_PR_DB_PATH = os.path.join(BASE_DIR, "data", "embeddings", "closed_pr")
+OPEN_PR_DB_PATH = os.path.join(BASE_DIR, "data", "embeddings", "open_pr") 
 
 
 # Load PR Data
@@ -86,8 +87,6 @@ def initialize_and_persist_chromadb(closed_pr_file, open_pr_file):
     open_db.persist()
     print("✅ ChromaDB storage complete!")
 
-if __name__ == "__main__":
-    closed_pr_json = r"C:\Users\Admin\Desktop\SMARTAI\SmartMergeAI\data\raw\closed_pr\wheel_all_closed_prs.json"
-    open_pr_json = r"C:\Users\Admin\Desktop\SMARTAI\SmartMergeAI\data\raw\open_pr\wheel_all_open_prs.json"
+    return closed_db,open_db
 
-    initialize_and_persist_chromadb(closed_pr_json, open_pr_json)
+

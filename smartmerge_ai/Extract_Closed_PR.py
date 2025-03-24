@@ -156,19 +156,23 @@ def fetch_all_closed_prs(repo_owner, repo_name):
         print("No closed PRs found.")
         return
  
-    os.makedirs("SmartMergeAI/data/raw/closed_pr", exist_ok=True)
-    file_path = f"SmartMergeAI/data/raw/closed_pr/{repo_name}_all_closed_prs.json"
+    #os.makedirs("SmartMergeAI/data/raw/closed_pr", exist_ok=True)
+    BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    CLOSED_PR_PATH = os.path.join(BASE_DIR, "data", "raw", "closed_pr")
+
+    file_path = os.path.join(CLOSED_PR_PATH, f"{repo_name}_all_closed_prs.json")
+
+
+    if not os.path.exists(CLOSED_PR_PATH):
+        os.makedirs(CLOSED_PR_PATH)
+
+        
     with open(file_path, "w", encoding="utf-8") as file:
         json.dump(all_prs, file, indent=4)
  
     print(f"Fetched all closed PRs")
     print(f"PR details saved in {file_path}")
 
-if __name__ == "__main__":
-    repo_owner = "pypa"
-    repo_name = "wheel"
-   
-    # Fetch closed PRs
-    fetch_all_closed_prs(repo_owner, repo_name)
+
  
   

@@ -1,15 +1,24 @@
 import uvicorn
 import sys
+import os
 from rich.console import Console
 from rich.table import Table
 from rich.markdown import Markdown
 from textwrap import fill
 from smartmerge_ai.Extract_Open_PR import fetch_all_open_prs
 from smartmerge_ai.Extract_Closed_PR import fetch_all_closed_prs
-from smartmerge_ai.vector_store import load_pr_data
+from smartmerge_ai.vector_store import load_pr_data, initialize_and_persist_chromadb
 from smartmerge_ai.ragLLM import evaluate_open_pr
 
 console = Console()
+
+# Define paths for PR JSON data
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+CLOSED_PR_PATH = os.path.join(BASE_DIR, "data", "raw", "closed_pr")
+OPEN_PR_PATH = os.path.join(BASE_DIR, "data", "raw", "open_pr") 
+
+
+
 
 
 def format_text(text, width=80):
@@ -32,16 +41,27 @@ def run_cli():
     fetch_all_closed_prs(repo_owner, repo_name)  # Fetch closed PR data
     fetch_all_open_prs(repo_owner, repo_name)  # Fetch open PR data
 
+    closed_pr_file = os.path.join(CLOSED_PR_PATH, f"{repo_name}_all_closed_prs.json")
+    open_pr_file = os.path.join(OPEN_PR_PATH, f"{repo_name}_all_open_prs.json")
+
     console.print("\n[cyan]📊 Loading PR Data...[/cyan]\n")
 
-    closed_prs = load_pr_data(
-        rf"SmartMergeAI/data/raw/closed_pr/{repo_name}_all_closed_prs.json")
-    open_prs = load_pr_data(rf"SmartMergeAI/data/raw/open_pr/{repo_name}_all_open_prs.json")
+    #Initialise ChromaDB Storage
+    closed_prs_vector, open_prs_vector=initialize_and_persist_chromadb(closed_pr_file,open_pr_file)
 
     console.print(
         "\n[bold green]🤖 Evaluating PRs using RAG-based AI...[/bold green]\n")
+    
+#///////////////////////////////////////////////////////////////////////
+    # Retrieve stored PR texts properly
+    def extract_pr_text(vector_store):
+        return [doc.page_content for doc in vector_store.similarity_search("", k=100)]
 
-    merge_predictions = evaluate_open_pr(closed_prs, open_prs)
+    closed_pr_texts = extract_pr_text(closed_prs_vector)
+    open_pr_texts = extract_pr_text(open_prs_vector)
+
+    merge_predictions = evaluate_open_pr(closed_pr_texts, open_pr_texts)
+#////////////////////////////////////////////////////////////////////
 
     # Display structured table output
     table = Table(title="🔹 PR Merge Predictions", show_lines=True)

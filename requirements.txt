@@ -1,9 +1,12 @@
 openai
 requests
-faiss-cpu
+numpy
+pandas
 python-dotenv
-mlflow
+#mlflow
 pytest
 dotenv
 langchain_openai;
 rich
+chromadb
+langchain_community

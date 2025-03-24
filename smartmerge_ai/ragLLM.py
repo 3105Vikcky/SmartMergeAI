@@ -56,15 +56,20 @@ def extract_merge_percentage(response_text):
     # Default to 50% if no clear match
     return 50  
 
-def evaluate_open_pr(closed_prs, open_prs):
-    closed_pr_texts = format_closed_prs(closed_prs)
-    retriever = initialize_retriever(closed_pr_texts)
-    llm = ChatOpenAI(model_name="gpt-4o", openai_api_key=OPENAI_API_KEY, temperature=0)
-    rag_chain = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)
+
+
+
+
+
+def evaluate_open_pr(closed_pr_texts, open_pr_texts):
+    """
+    Evaluates open PRs using extracted text instead of raw vectors.
+    """
+    llm = ChatOpenAI(model_name="gpt-4", openai_api_key=OPENAI_API_KEY, temperature=0)
 
     results = {}
-    for open_pr in open_prs:
-        prompt = generate_prompt(open_pr)
+    for open_pr_text in open_pr_texts:
+        prompt = f"Analyze the following open PR and provide a merge recommendation:\n\n{open_pr_text}"
         response = llm.invoke([
             {"role": "system", "content": "You are an AI that evaluates PRs and provides a merge recommendation."},
             {"role": "user", "content": prompt}
@@ -73,9 +78,37 @@ def evaluate_open_pr(closed_prs, open_prs):
         response_text = response.content
         merge_confidence = extract_merge_percentage(response_text)
 
-        results[open_pr['PR Number']] = {
+        results[open_pr_text[:50]] = {  # Use first 50 chars as an identifier
             "response": response_text,
             "merge_percentage": f"{merge_confidence}%"
         }
 
     return results
+
+
+
+
+
+# def evaluate_open_pr(closed_prs, open_prs):
+#     closed_pr_texts = format_closed_prs(closed_prs)
+#     retriever = initialize_retriever(closed_pr_texts)
+#     llm = ChatOpenAI(model_name="gpt-4", openai_api_key=OPENAI_API_KEY, temperature=0)
+#     rag_chain = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)
+
+#     results = {}
+#     for open_pr in open_prs:
+#         prompt = generate_prompt(open_pr)
+#         response = llm.invoke([
+#             {"role": "system", "content": "You are an AI that evaluates PRs and provides a merge recommendation."},
+#             {"role": "user", "content": prompt}
+#         ])
+
+#         response_text = response.content
+#         merge_confidence = extract_merge_percentage(response_text)
+
+#         results[open_pr['PR Number']] = {
+#             "response": response_text,
+#             "merge_percentage": f"{merge_confidence}%"
+#         }
+
+#     return results
