@@ -15,6 +15,9 @@ VIR_ENV/
 #Ignore Raw Data
 /data/raw
 
+#Igore Embeddings Data
+/data/embeddings
+
 #ignore mlflowtracking.py
 /smartmerge_ai/ml_flowtracking.py
 
